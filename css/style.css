@@ -373,6 +373,9 @@ p.subtitle {
   .spotify-wrapper-dramatic iframe {
     height: 320px;
   }
+  .spotify-wrapper-dramatic {
+    height: 160px;
+  }
 
   .slide img {
     max-height: 60vh;
