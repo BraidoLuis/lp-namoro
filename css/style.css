@@ -1,0 +1,380 @@
+:root {
+  --max-w: 1000px;
+  --accent: #ff4f9a; /* rosa vibrante */
+  --accent2: #9b5cff; /* roxo vivo */
+  --accent3: #6c63ff; /* azul rosado */
+}
+
+/* Fundo com degradê romântico */
+body {
+  font-family: Inter, system-ui, Segoe UI, Roboto, "Helvetica Neue", Arial;
+  line-height: 1.4;
+  color: #fff;
+
+  margin: 0;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+
+  background: linear-gradient(135deg, #2a0f2f, #150c33, #210538);
+  background-size: 200% 200%;
+  animation: bgMove 10s ease infinite;
+}
+
+@keyframes bgMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.container {
+  max-width: var(--max-w);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100px 0;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Título com glow romântico */
+h1 {
+  color: #fff;
+  font-size: 2.4rem;
+  margin: 0;
+  text-shadow: 0 0 8px var(--accent), 0 0 15px var(--accent2);
+}
+
+p.subtitle {
+  color: #ffd6e9;
+  margin: 10px 0 0;
+  width: 400px;
+  text-align: center;
+  font-size: 1.3rem;
+  opacity: 0.95;
+}
+
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+/* carrossel real */
+.carousel {
+  position: relative;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden; /* só o carrossel corta imagens */
+  box-shadow: 0 0 20px rgba(255, 79, 154, 0.3),
+              0 0 40px rgba(155, 92, 255, 0.15);
+}
+
+/* slides */
+.slides {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.slide {
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slide img {
+  width: 100%;
+  height: auto;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 16px;
+}
+
+/* botões agora livres */
+.btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: white;
+  border: 0;
+  padding: 10px 14px;
+  cursor: pointer;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  opacity: 0.85;
+  transition: 0.25s ease;
+  z-index: 20;
+}
+
+.prev { left: -60px; }
+.next { right: -60px; }
+
+/* Dots */
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 0;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  background: #ffffff55;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.25s;
+  box-shadow: 0 0 6px #000;
+}
+
+.dot.active {
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+/* Texto */
+.more-text {
+  margin-top: 40px;
+  max-width: 600px;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #ffd0e4;
+  line-height: 1.6;
+}
+
+/* Contador */
+.counter {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  color: #fff;
+  margin-top: 20px;
+}
+
+.time-box {
+  text-align: center;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 10px rgba(255, 79, 154, 0.3);
+}
+
+.value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--accent2);
+}
+
+/* ---------- OVERLAY ---------- */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 0, 20, 1);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.6s ease;
+}
+
+/* Botão estiloso */
+.overlay-btn {
+  padding: 18px 40px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(135deg, #ff4f9a, #9b5cff);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(255, 79, 154, 0.5),
+              0 0 25px rgba(155, 92, 255, 0.4);
+  transition: 0.3s ease;
+}
+.overlay-btn {
+  position: relative;
+  overflow: visible; /* importante! para as partículas saírem para fora */
+}
+
+
+.overlay-btn:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 25px rgba(255, 79, 154, 0.7),
+              0 0 35px rgba(155, 92, 255, 0.6);
+}
+
+/* ---------- PARTÍCULAS SAINDO DO BOTÃO ---------- */
+
+.overlay-btn .particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle, white, rgba(255,255,255,0));
+
+  pointer-events: none;
+  animation: fly 1.4s ease-out forwards;
+  opacity: 0.9;
+  filter: blur(1px);
+}
+
+/* Animação das partículas */
+@keyframes fly {
+  0% {
+    transform: translate(0,0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(0.3);
+    opacity: 0;
+  }
+}
+
+/* Quando esconder */
+.overlay.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.spotify-wrapper-dramatic {
+  width: 100%;
+  max-width: 600px;
+  margin: 40px auto; /* centralizado */
+  padding: 12px;
+  border-radius: 24px;
+  background: rgba(255, 79, 154, 0.1); /* rosa suave translúcido */
+  box-shadow: 0 0 30px rgba(255, 79, 154, 0.4), 
+              0 0 60px rgba(155, 92, 255, 0.3);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.spotify-wrapper-dramatic:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 40px rgba(255, 79, 154, 0.6), 
+              0 0 80px rgba(155, 92, 255, 0.5);
+}
+
+.spotify-wrapper-dramatic iframe {
+  width: 100%;
+  height: 380px;
+  border-radius: 18px;
+  border: none;
+}
+
+/* ================================
+   RESPONSIVIDADE - CELULARES
+================================ */
+@media (max-width: 600px) {
+
+  body {
+    padding: 16px;
+  }
+
+  .container {
+    padding: 40px 0;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  p.subtitle {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0 10px;
+  }
+
+  /* Carrossel ocupa toda a largura */
+  .carousel-wrapper {
+    width: 100%;
+  }
+
+  /* Botões do carrossel voltam para dentro da tela */
+  .btn {
+    padding: 8px 10px;
+    font-size: 1rem;
+  }
+
+  .prev { left: 5px; }
+  .next { right: 5px; }
+
+  /* Imagens menores */
+  .slide img {
+    max-height: 55vh;
+    object-fit: cover;
+  }
+
+  /* Dots menores */
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Spotify ajustado */
+  .spotify-wrapper-dramatic iframe {
+    height: 260px;
+  }
+
+  /* Contador vira duas linhas */
+  .counter {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .time-box {
+    padding: 10px;
+    width: 30%;
+    min-width: 90px;
+  }
+
+  .value {
+    font-size: 1.5rem;
+  }
+
+  .more-text {
+    font-size: 1rem;
+    padding: 0 12px;
+  }
+}
+
+/* ================================
+   TABLETS
+================================ */
+@media (max-width: 1200px){
+  .prev { left: 0px; }
+  .next { right: 0px; }
+}
+@media (max-width: 900px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  p.subtitle {
+    font-size: 1.1rem;
+  }
+
+  .spotify-wrapper-dramatic iframe {
+    height: 320px;
+  }
+
+  .slide img {
+    max-height: 60vh;
+  }
+}
