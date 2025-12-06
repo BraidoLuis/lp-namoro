@@ -19,6 +19,7 @@ body {
   background: linear-gradient(135deg, #2a0f2f, #150c33, #210538);
   background-size: 200% 200%;
   animation: bgMove 10s ease infinite;
+  overflow-x: hidden;
 }
 
 @keyframes bgMove {
