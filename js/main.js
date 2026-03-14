@@ -92,7 +92,8 @@ const midias = [
   "images/Amor11.jpeg",
   "images/Amor12.jpeg",
   "images/Amor13.jpeg",
-  "images/Amor14.jpeg"
+  "images/Amor14.jpeg",
+  "videos/Amor.mp4"
 ];
 
 const carousel = document.getElementById("carousel");
