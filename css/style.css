@@ -323,7 +323,9 @@ p.subtitle {
   .container {
     padding: 40px 0;
   }
-
+  .spotify-wrapper-dramatic{
+    height: 160px;
+  }
   h1 {
     font-size: 1.8rem;
     text-align: center;
