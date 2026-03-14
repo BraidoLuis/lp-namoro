@@ -1,6 +1,5 @@
 // 👉 Coloque aqui a data que vocês começaram a namorar
 const startDate = new Date('2025-10-12T00:00:00'); 
-// exemplo — troque pela sua!
 
 function calcDiff(start, now) {
   if (now <= start) 
@@ -13,7 +12,6 @@ function calcDiff(start, now) {
   let M = now.getMinutes() - start.getMinutes();
   let S = now.getSeconds() - start.getSeconds();
 
-  // Ajustes quando os valores ficam negativos
   if (S < 0) { S += 60; M--; }
   if (M < 0) { M += 60; H--; }
   if (H < 0) { H += 24; d--; }
@@ -44,68 +42,23 @@ function updateCounter() {
 updateCounter();
 setInterval(updateCounter, 1000);
 
-
-/* CARROSSEL */
-(function (){
-  const slidesEl = document.getElementById('slides');
-  const slides = slidesEl.children;
-  const total = slides.length;
-  let index = 0;
-
-  const dotsContainer = document.getElementById('dots');
-
-  function renderDots(){
-    dotsContainer.innerHTML = '';
-    for (let i = 0; i < total; i++){
-      const d = document.createElement('div');
-      d.className = 'dot';
-      d.dataset.i = i;
-      if (i === index) d.classList.add('active');
-      d.addEventListener('click', () => goTo(i));
-      dotsContainer.appendChild(d);
-    }
-  }
-
-  function goTo(i){
-    index = (i + total) % total;
-    slidesEl.style.transform = `translateX(-${index * 100}%)`;
-    renderDots();
-  }
-
-  document.getElementById('prevBtn').addEventListener('click', ()=> goTo(index - 1));
-  document.getElementById('nextBtn').addEventListener('click', ()=> goTo(index + 1));
-
-  renderDots();
-  goTo(0);
-})();
-
-document.getElementById('enterBtn').addEventListener('click', () => {
-  const overlay = document.getElementById('overlay');
-  overlay.classList.add('hide');
-
-  // some 1s depois (quando a animação termina)
-  setTimeout(() => {
-    overlay.style.display = "none";
-  }, 600);
-});
-
 // --------- PARTÍCULAS EXPLODINDO DO BOTÃO ------------
+
 const btn = document.getElementById("enterBtn");
 
 function spawnParticle() {
+
   const p = document.createElement("div");
   p.classList.add("particle");
 
   const btnRect = btn.getBoundingClientRect();
 
-  // posição inicial aleatória dentro do botão
   const startX = Math.random() * btnRect.width;
   const startY = Math.random() * btnRect.height;
 
   p.style.left = `${startX}px`;
   p.style.top = `${startY}px`;
 
-  // Partículas saem em direção aleatória
   const angle = Math.random() * Math.PI * 2;
   const distance = 60 + Math.random() * 40;
 
@@ -120,6 +73,117 @@ function spawnParticle() {
   setTimeout(() => p.remove(), 1400);
 }
 
-// Criar partículas contínuas
 setInterval(spawnParticle, 50);
 
+
+// ---------------- CRIAR SLIDES ----------------
+
+const midias = [
+  "images/Amor1.jpg",
+  "images/Amor2.jpg",
+  "images/Amor3.jpg",
+  "images/Amor4.jpg",
+  "images/Amor5.jpeg",
+  "images/Amor6.jpeg",
+  "images/Amor7.jpeg",
+  "images/Amor8.jpeg",
+  "images/Amor9.jpeg",
+  "images/Amor10.jpeg",
+  "images/Amor11.jpeg",
+  "images/Amor12.jpeg",
+  "images/Amor13.jpeg",
+  "images/Amor14.jpeg"
+];
+
+const carousel = document.getElementById("carousel");
+
+midias.forEach((src,i)=>{
+
+  const slide = document.createElement("div");
+
+  const ext = src.split('.').pop().toLowerCase();
+
+  if(["mp4","webm","mov"].includes(ext)){
+
+    const video = document.createElement("video");
+    video.src = src;
+    video.className = "slide-video";
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.autoplay = true;
+    video.controls = false;
+
+    slide.appendChild(video);
+
+  }else{
+
+    const img = document.createElement("img");
+    img.src = src;
+    img.className = "slide-img";
+
+    slide.appendChild(img);
+
+  }
+
+  carousel.appendChild(slide);
+
+});
+
+
+// ---------------- FUNÇÃO QUE INICIA O SLICK ----------------
+
+function iniciarCarousel(){
+
+  const el = $('#carousel');
+
+  if(el.hasClass('slick-initialized')){
+    el.slick('unslick');
+  }
+
+  el.slick({
+    dots: true,
+    arrows: true,
+    infinite: true,
+    speed: 800,
+    slidesToShow: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    fade: true,
+    cssEase: 'ease-in-out',
+    adaptiveHeight: true,
+
+    prevArrow: '<button class="btn prev">◀</button>',
+    nextArrow: '<button class="btn next">▶</button>',
+
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          arrows: false
+        }
+      }
+    ]
+  });
+
+  setTimeout(()=>{
+    el.slick('setPosition');
+  },100);
+}
+
+// ---------------- BOTÃO DE ENTRADA ----------------
+
+document.getElementById('enterBtn').addEventListener('click', () => {
+
+  const overlay = document.getElementById('overlay');
+  overlay.classList.add('hide');
+
+  setTimeout(() => {
+
+    overlay.style.display = "none";
+
+    iniciarCarousel();
+
+  }, 700);
+
+});
