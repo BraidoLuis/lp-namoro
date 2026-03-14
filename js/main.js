@@ -150,7 +150,7 @@ function iniciarCarousel(){
     speed: 800,
     slidesToShow: 1,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 10000,
     fade: true,
     cssEase: 'ease-in-out',
     adaptiveHeight: true,
