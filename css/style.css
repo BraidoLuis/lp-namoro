@@ -5,6 +5,10 @@
   --accent3: #6c63ff; /* azul rosado */
 }
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 /* Fundo com degradê romântico */
 body {
   font-family: Inter, system-ui, Segoe UI, Roboto, "Helvetica Neue", Arial;
@@ -54,13 +58,15 @@ h1 {
 p.subtitle {
   color: #ffd6e9;
   margin: 10px 0 0;
-  width: 400px;
+  width: min(100%, 400px);
   text-align: center;
   font-size: 1.3rem;
   opacity: 0.95;
 }
 
 .carousel-wrapper {
+  width: 100%;
+  max-width: 900px;
   position: relative;
   display: block;
   flex-direction: column;
@@ -75,7 +81,7 @@ p.subtitle {
   max-width: 900px;
   margin: 0 auto;
   border-radius: 16px;
-  overflow: hidden;
+  overflow: visible;
   box-shadow: 0 0 20px rgba(255, 79, 154, 0.3),
               0 0 40px rgba(155, 92, 255, 0.15);
 }
@@ -86,6 +92,7 @@ p.subtitle {
 
 .slick-list {
   overflow: hidden;
+  border-radius: 16px;
 }
 
 .slick-track{
@@ -134,6 +141,14 @@ p.subtitle {
 
 .slick-dots li.slick-active button:before{
   color:#ff4f9a;
+}
+
+.slick-dots {
+  position: static;
+  display: flex !important;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 12px 0 0;
 }
 
 /* botões agora livres */
@@ -323,9 +338,6 @@ p.subtitle {
   .container {
     padding: 40px 0;
   }
-  .spotify-wrapper-dramatic{
-    height: 160px;
-  }
   h1 {
     font-size: 1.8rem;
     text-align: center;
@@ -354,7 +366,7 @@ p.subtitle {
   /* Imagens menores */
   .slick-slide img {
     max-height: 55vh;
-    object-fit: cover;
+    object-fit: contain;
   }
 
   /* Dots menores */
@@ -370,8 +382,7 @@ p.subtitle {
 
   .time-box {
     padding: 10px;
-    width: 30%;
-    min-width: 90px;
+    min-width: 0;
   }
 
   .value {
@@ -407,4 +418,14 @@ p.subtitle {
   .slick-slide img {
     max-height: 60vh;
   }
+}
+
+/* As regras de celular ficam por último para prevalecer sobre tablets. */
+@media (max-width: 600px) {
+  h1 { font-size: 1.8rem; }
+  p.subtitle { font-size: 1rem; }
+  .spotify-wrapper-dramatic iframe { height: 260px; }
+  .slick-slide img, .slick-slide video { max-height: 55vh; }
+  .counter { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .counter-section { width: 100%; }
 }
