@@ -1,5 +1,11 @@
+document.title = siteConfig.pageTitle;
+document.getElementById('main-title').textContent = siteConfig.title;
+document.getElementById('subtitle').textContent = siteConfig.subtitle;
+document.querySelector('#moreText p').textContent = siteConfig.message;
+document.querySelector('.spotify-wrapper-dramatic iframe').src = siteConfig.spotifyEmbedUrl;
+
 // 👉 Coloque aqui a data que vocês começaram a namorar
-const startDate = new Date('2025-10-12T00:00:00'); 
+const startDate = new Date(siteConfig.startDate); 
 
 function calcDiff(start, now) {
   if (now <= start) 
@@ -78,24 +84,7 @@ setInterval(spawnParticle, 50);
 
 // ---------------- CRIAR SLIDES ----------------
 
-const midias = [
-  "images/Amor1.jpg",
-  "images/Amor2.jpg",
-  "images/Amor3.jpg",
-  "images/Amor4.jpg",
-  "images/Amor5.jpeg",
-  "images/Amor6.jpeg",
-  "images/Amor7.jpeg",
-  "images/Amor8.jpeg",
-  "images/Amor9.jpeg",
-  "images/Amor10.jpeg",
-  "images/Amor11.jpeg",
-  "images/Amor12.jpeg",
-  "images/Amor13.jpeg",
-  "images/Amor14.jpeg",
-  "videos/Amor.mp4",
-  "images/Amor15.jpeg"
-];
+const midias = siteConfig.media.map(item => item.src);
 
 const carousel = document.getElementById("carousel");
 
