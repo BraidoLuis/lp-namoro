@@ -149,6 +149,7 @@ p.subtitle {
 .carousel-slide.heart-incoming { position: relative; z-index: 1; animation: none; }
 .overlay.heart-opening { background: transparent; backdrop-filter: none; }
 .heart-opening svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.heart-contours { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; filter: drop-shadow(0 0 5px #fff0c966); }
 .carousel-slide img, .carousel-slide video {
   display: block;
   width: 100%;

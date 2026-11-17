@@ -11,13 +11,43 @@ function heartPoints(width, height, scale) {
   }).join(',');
 }
 
-function revealHeart(element, duration = 1100) {
+function heartContours(host, width, height, duration) {
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.classList.add('heart-contours');
+  svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+  svg.setAttribute('preserveAspectRatio', 'none');
+  svg.setAttribute('aria-hidden', 'true');
+  const animations = ['#fff8e9', '#eacfa6', '#ffffff'].map((color, index) => {
+    const ring = document.createElementNS(ns, 'polygon');
+    ring.setAttribute('points', heartPoints(width, height, 1.8).replaceAll('px', '').replaceAll(',', ' '));
+    ring.setAttribute('fill', 'none');
+    ring.setAttribute('stroke', color);
+    ring.setAttribute('stroke-width', index === 1 ? '4' : '2');
+    ring.setAttribute('stroke-linejoin', 'round');
+    ring.setAttribute('vector-effect', 'non-scaling-stroke');
+    ring.style.transformOrigin = `${width / 2}px ${height / 2}px`;
+    svg.append(ring);
+    return ring.animate([
+      { transform: 'scale(0)', opacity: 0 },
+      { transform: 'scale(.025)', opacity: .9, offset: .12 },
+      { transform: 'scale(1)', opacity: 0 }
+    ], { duration: duration - index * 100, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'both' });
+  });
+  host.append(svg);
+  const finished = Promise.all(animations.map(animation => animation.finished));
+  return { finished: finished.finally(() => svg.remove()) };
+}
+
+function revealHeart(element, duration = 1500) {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return null;
   const { width, height } = element.getBoundingClientRect();
-  return element.animate([
+  const contours = heartContours(element.parentElement, width, height, duration);
+  const animation = element.animate([
     { clipPath: `polygon(${heartPoints(width, height, 0)})` },
     { clipPath: `polygon(${heartPoints(width, height, 1.8)})` }
   ], { duration, easing: 'cubic-bezier(.4,0,.2,1)' });
+  return { finished: Promise.all([animation.finished, contours.finished]) };
 }
 
 function openHeartScreen(overlay) {
@@ -51,8 +81,9 @@ function openHeartScreen(overlay) {
   svg.append(defs, cover);
   overlay.append(svg);
   overlay.classList.add('heart-opening');
+  const contours = heartContours(overlay, width, height, 1600);
   const animation = hole.animate([{ transform: 'scale(0)' }, { transform: 'scale(1)' }], {
-    duration: 1400, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards'
+    duration: 1600, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards'
   });
-  return animation.finished.finally(() => svg.remove());
+  return Promise.all([animation.finished, contours.finished]).finally(() => svg.remove());
 }
