@@ -26,26 +26,6 @@ body {
 }
 
 body.entering { overflow: hidden; }
-body { isolation: isolate; }
-main.container { position: relative; z-index: 1; }
-.heart-background { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-.heart-grid-base { fill: url(#heart-grid); color: #9b5cff; opacity: .16; }
-#heart-grid path { fill: #6c326c; stroke: #e6a4cf; stroke-width: 1; }
-.heart-grid-light { opacity: .025; animation: heart-region-glow 2s ease-in-out infinite; }
-.heart-grid-rise { opacity: 0; stroke: #ffd6e9; stroke-width: 1; transform-box: fill-box; transform-origin: center; animation: heart-relief-cycle 2s ease-in-out infinite; }
-@keyframes heart-region-glow {
-  0%, 70%, 100% { opacity: .025; }
-  22%, 42% { opacity: .34; }
-}
-@keyframes heart-relief-cycle {
-  0%, 70%, 100% { opacity: 0; transform: translateY(0) scale(.98); }
-  22%, 42% { opacity: .28; transform: translateY(-5px) scale(.98); }
-}
-.heart-background.is-paused * { animation-play-state: paused; }
-@media (max-width: 600px) { .heart-grid-base { opacity: .12; } }
-@media (prefers-reduced-motion: reduce) {
-  .heart-grid-light, .heart-grid-rise { animation: none; opacity: 0; }
-}
 a { color: #ffd6e9; }
 .fallback-photo { display: block; width: 100%; max-height: 60vh; object-fit: contain; }
 

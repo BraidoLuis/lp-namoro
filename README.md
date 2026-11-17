@@ -78,4 +78,3 @@ Separar uma versão padrão com conteúdo demonstrativo para clientes e definir 
 
 As transições usam uma abertura vetorial em coração: em tela cheia na entrada e sobre a memória anterior no carrossel. A implementação web está em js/transitions.js; o projeto After Effects de referência não é uma dependência do site. Movimento reduzido desativa o efeito.
 
-O fundo em js/background.js adapta a malha de hexágonos da LP profissional para corações vetoriais, com luz regional e relevo em ciclos de dois segundos. A camada é fixa, decorativa e não intercepta cliques; respeita movimento reduzido e suspende animações com a aba oculta.
