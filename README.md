@@ -38,11 +38,10 @@ Os arquivos originais foram preservados. Ao editar textos ou a playlist, atualiz
 ## Comportamento
 
 - Setas, indicadores, teclas direcionais e gesto horizontal nas fotos permitem navegar, inclusive do último slide para o primeiro.
-- As fotos avançam automaticamente após 10 segundos. Foco dentro do carrossel ou ponteiro sobre ele interrompem a troca automática das fotos; o botão Continuar retoma explicitamente a apresentação.
+- As fotos avançam automaticamente após 10 segundos, em ciclo infinito, inclusive com foco ou ponteiro sobre o carrossel. Os indicadores aparecem somente em telas de até 900 pixels.
 - O vídeo começa sem som apenas quando ativo e visível, tem controles nativos e avança ao terminar. Ao retornar ao slide, começa do início. Se o navegador bloquear a reprodução, uma mensagem orienta a iniciá-la manualmente.
-- Pausar apresentação interrompe fotos e vídeo. Os controles do próprio vídeo também sincronizam esse estado.
 - Ao sair da área visível ou ocultar a aba, a apresentação pausa. As partículas encerram após a entrada; o contador suspende atualizações em abas ocultas e recalcula ao voltar.
-- Movimento reduzido desativa animações e começa com a apresentação pausada. A pessoa pode retomá-la pelo botão.
+- Movimento reduzido desativa as animações visuais; a apresentação continua avançando automaticamente.
 - As fotos carregam sob demanda, com espaço reservado. O Spotify só é solicitado depois da entrada. Sem JavaScript, os textos e links para a primeira foto, vídeo e playlist continuam acessíveis.
 
 ## Estrutura
@@ -71,7 +70,7 @@ node --check js/main.js
 git diff --check
 ```
 
-Os testes cobrem viradas de mês, fevereiro bissexto, datas futuras, fusos e integridade das referências às mídias. Antes de publicar, confira também a entrada por teclado, todas as mídias, a pausa e retomada, o término do vídeo e a página em larguras de 320, 390, 768 e 1280 pixels. Gestos e políticas de reprodução devem ser conferidos também em aparelhos reais.
+Os testes cobrem viradas de mês, fevereiro bissexto, datas futuras, fusos e integridade das referências às mídias. Antes de publicar, confira também a entrada por teclado, todas as mídias, o avanço automático, o término do vídeo e a página em larguras de 320, 390, 768 e 1280 pixels. Gestos e políticas de reprodução devem ser conferidos também em aparelhos reais.
 
 ## Próxima etapa
 

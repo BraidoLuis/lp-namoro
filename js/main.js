@@ -40,7 +40,7 @@ function syncParticles() {
 overlay.hidden = false;
 content.inert = true;
 document.body.classList.add('entering');
-btn.focus();
+btn.focus({ focusVisible: false });
 syncParticles();
 document.addEventListener('visibilitychange', syncParticles);
 motion.addEventListener('change', syncParticles);
@@ -56,6 +56,11 @@ btn.addEventListener('click', () => {
     content.inert = false;
     document.body.classList.remove('entering');
     album.start();
-    document.getElementById('main-title').focus({ preventScroll: true });
+    document.getElementById('main-title').focus({ preventScroll: true, focusVisible: false });
   }, motion.matches ? 0 : 700);
 });
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Tab') document.body.classList.add('keyboard-navigation');
+});
+document.addEventListener('pointerdown', () => document.body.classList.remove('keyboard-navigation'));

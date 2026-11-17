@@ -2,16 +2,12 @@
 
 function createCarousel(media, photoDuration) {
   const root = document.getElementById('carousel');
-  const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const stage = document.createElement('div');
   stage.className = 'carousel-stage';
   const slides = [];
   const dots = [];
   let current = 0;
   let started = false;
-  let userPaused = motion.matches;
-  let hovering = false;
-  let focused = false;
   let visible = true;
   let timer;
 
@@ -38,12 +34,6 @@ function createCarousel(media, photoDuration) {
 
   const previous = button('Memória anterior', '◀', 'btn prev', () => show(current - 1, true));
   const next = button('Próxima memória', '▶', 'btn next', () => show(current + 1, true));
-  const pause = button('Pausar apresentação', 'Pausar apresentação', 'playback-btn', () => {
-    userPaused = !userPaused;
-    // A retomada explícita também funciona com o foco no próprio botão.
-    if (!userPaused) { focused = false; hovering = false; }
-    syncPlayback();
-  });
 
   media.forEach((item, index) => {
     const slide = document.createElement('div');
@@ -63,18 +53,6 @@ function createCarousel(media, photoDuration) {
       element.controls = true;
       element.preload = 'none';
       element.setAttribute('aria-label', item.alt);
-      element.addEventListener('pause', () => {
-        if (index === current && canPlay() && element.paused && !element.ended) {
-          userPaused = true;
-          syncPlayback();
-        }
-      });
-      element.addEventListener('play', () => {
-        if (index === current && started && !document.hidden && visible && userPaused) {
-          userPaused = false;
-          syncPlayback();
-        }
-      });
       element.addEventListener('ended', () => {
         if (index === current && canPlay()) show(current + 1);
       });
@@ -105,7 +83,7 @@ function createCarousel(media, photoDuration) {
   });
 
   stage.append(previous, next);
-  controls.append(pause, status);
+  controls.append(status);
   root.append(stage, indicators, controls);
   root.addEventListener('keydown', event => {
     // Preserve os atalhos nativos do player de vídeo.
@@ -128,17 +106,7 @@ function createCarousel(media, photoDuration) {
     if (Math.abs(dx) > 50 && Math.abs(dy) < 60) show(current + (dx < 0 ? 1 : -1), true);
   });
   stage.addEventListener('pointercancel', () => { gesture = null; });
-  root.addEventListener('mouseenter', () => { hovering = true; syncPlayback(); });
-  root.addEventListener('mouseleave', () => { hovering = false; syncPlayback(); });
-  root.addEventListener('focusin', () => { focused = true; syncPlayback(); });
-  root.addEventListener('focusout', event => {
-    if (!root.contains(event.relatedTarget)) { focused = false; syncPlayback(); }
-  });
   document.addEventListener('visibilitychange', syncPlayback);
-  motion.addEventListener('change', event => {
-    if (event.matches) userPaused = true;
-    syncPlayback();
-  });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => {
       visible = entries[0].isIntersecting;
@@ -147,7 +115,7 @@ function createCarousel(media, photoDuration) {
   }
 
   function canPlay() {
-    return started && !userPaused && !document.hidden && visible;
+    return started && !document.hidden && visible;
   }
 
   function load(index) {
@@ -157,9 +125,6 @@ function createCarousel(media, photoDuration) {
 
   function syncPlayback() {
     clearTimeout(timer);
-    pause.textContent = userPaused ? 'Continuar apresentação' : 'Pausar apresentação';
-    pause.setAttribute('aria-label', pause.textContent);
-    pause.setAttribute('aria-pressed', String(userPaused));
     const element = slides[current].firstElementChild;
     if (element.tagName === 'VIDEO') {
       if (canPlay()) {
@@ -169,7 +134,7 @@ function createCarousel(media, photoDuration) {
           }
         });
       } else element.pause();
-    } else if (canPlay() && !hovering && !focused) {
+    } else if (canPlay()) {
       timer = setTimeout(() => show(current + 1), photoDuration);
     }
   }
