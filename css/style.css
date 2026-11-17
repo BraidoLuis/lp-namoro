@@ -25,6 +25,18 @@ body {
   overflow-x: hidden;
 }
 
+body.entering { overflow: hidden; }
+a { color: #ffd6e9; }
+.fallback-photo { display: block; width: 100%; max-height: 60vh; object-fit: contain; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 @keyframes bgMove {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }

@@ -4,18 +4,20 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Amor da minha vida</title>
-  <link rel="icon" href="images/heart-removebg-preview.png" type="image/jpg">
+  <meta name="description" content="Nosso álbum de memórias, músicas e momentos juntos.">
+  <meta name="theme-color" content="#210538">
+  <link rel="icon" href="images/heart-removebg-preview.png" type="image/png">
   <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-  <div id="overlay" class="overlay">
-    <button id="enterBtn" class="overlay-btn">Clique aqui</button>
+  <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-label="Uma surpresa para você" hidden>
+    <button id="enterBtn" class="overlay-btn" type="button">Clique aqui</button>
   </div>
 
 
 
-  <div class="container">
+  <main class="container">
 
     <header>
       <h1 id="main-title" tabindex="-1">Nossa História</h1>
@@ -25,10 +27,13 @@
 
   <div class="spotify-wrapper-dramatic">
     <iframe 
-      src="https://open.spotify.com/embed/playlist/6EKKd2cIbKf50MCdgTvnPS?utm_source=generator" 
+      id="spotify-player"
+      title="Playlist da nossa história no Spotify"
+      loading="lazy"
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       allowfullscreen
     ></iframe>
+    <noscript><a href="https://open.spotify.com/playlist/6EKKd2cIbKf50MCdgTvnPS">Ouvir nossa playlist no Spotify</a></noscript>
   </div>
 
 
@@ -36,12 +41,17 @@
     <section class="carousel-wrapper">
 
       <div class="carousel" id="carousel" role="region" aria-roledescription="carrossel" aria-label="Nossas memórias" tabindex="0"></div>
+      <noscript>
+        <p>Ative o JavaScript para navegar pelo álbum e acompanhar nosso tempo juntos.</p>
+        <img class="fallback-photo" src="images/Amor1.jpg" alt="Primeira memória do nosso álbum" width="720" height="1280">
+        <p><a href="videos/Amor.mp4">Assistir à nossa memória em vídeo</a></p>
+      </noscript>
 
     </section>
 
 
     <!-- CONTADOR -->
-    <section class="counter-section">
+    <section class="counter-section" aria-label="Nosso tempo juntos">
       <div class="counter" id="counter">
         <div class="time-box"><div class="value" id="years">0</div><div class="label">Anos</div></div>
         <div class="time-box"><div class="value" id="months">0</div><div class="label">Meses</div></div>
@@ -60,10 +70,11 @@ Eu te amo, hoje e sempre.
       </p>
     </article>
 
-  </div>
-  <script src="js/config.js"></script>
-  <script src="js/carousel.js"></script>
-  <script src="js/main.js"></script>
+  </main>
+  <script src="js/config.js" defer></script>
+  <script src="js/counter.js" defer></script>
+  <script src="js/carousel.js" defer></script>
+  <script src="js/main.js" defer></script>
 </body>
 
 </html>
