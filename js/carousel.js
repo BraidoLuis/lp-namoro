@@ -10,6 +10,8 @@ function createCarousel(media, photoDuration) {
   let visible = true;
   let timer;
   let transition;
+  let busy = false;
+  let requested = 0;
 
   const status = document.createElement('p');
   status.className = 'carousel-status';
@@ -26,8 +28,8 @@ function createCarousel(media, photoDuration) {
     return element;
   }
 
-  const previous = button('Memória anterior', '◀', 'btn prev', () => show(current - 1, true));
-  const next = button('Próxima memória', '▶', 'btn next', () => show(current + 1, true));
+  const previous = button('Memória anterior', '◀', 'btn prev', () => show(requested - 1, true));
+  const next = button('Próxima memória', '▶', 'btn next', () => show(requested + 1, true));
 
   media.forEach((item, index) => {
     const slide = document.createElement('div');
@@ -79,7 +81,7 @@ function createCarousel(media, photoDuration) {
     if (event.target.tagName === 'VIDEO') return;
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
       event.preventDefault();
-      show(current + (event.key === 'ArrowRight' ? 1 : -1), true);
+      show(requested + (event.key === 'ArrowRight' ? 1 : -1), true);
     }
   });
   let gesture;
@@ -92,7 +94,7 @@ function createCarousel(media, photoDuration) {
     const dx = event.clientX - gesture.x;
     const dy = event.clientY - gesture.y;
     gesture = null;
-    if (Math.abs(dx) > 50 && Math.abs(dy) < 60) show(current + (dx < 0 ? 1 : -1), true);
+    if (Math.abs(dx) > 50 && Math.abs(dy) < 60) show(requested + (dx < 0 ? 1 : -1), true);
   });
   stage.addEventListener('pointercancel', () => { gesture = null; });
   document.addEventListener('visibilitychange', syncPlayback);
@@ -109,7 +111,9 @@ function createCarousel(media, photoDuration) {
 
   function load(index) {
     const element = slides[index].firstElementChild;
+    if (element.tagName === 'IMG') element.loading = 'eager';
     if (!element.hasAttribute('src')) element.src = element.dataset.src;
+    return element;
   }
 
   function syncPlayback() {
@@ -123,47 +127,56 @@ function createCarousel(media, photoDuration) {
           }
         });
       } else element.pause();
-    } else if (canPlay()) {
+    } else if (canPlay() && !busy) {
       timer = setTimeout(() => show(current + 1), photoDuration);
     }
   }
 
-  function show(index, announce = false) {
-    if (transition) transition.cancel();
+  async function show(index, announce = false) {
+    requested = (index % slides.length + slides.length) % slides.length;
+    if (busy) return;
+    busy = true;
+    clearTimeout(timer);
+    const target = requested;
+    const element = load(target);
+    // Preserve a memória atual até a próxima imagem estar pronta para desenhar.
+    if (element.tagName === 'IMG') {
+      try { await element.decode(); } catch { /* O texto alternativo continua disponível. */ }
+    }
+    if (target !== requested) {
+      busy = false;
+      return show(requested, announce);
+    }
     const previousIndex = current;
     const outgoing = slides[current].firstElementChild;
     if (outgoing.tagName === 'VIDEO') outgoing.pause();
-    const incoming = (index + slides.length) % slides.length;
-    const changed = incoming !== current;
-    current = incoming;
+    const changed = target !== current;
+    current = target;
     slides.forEach((slide, i) => { slide.hidden = i !== current; });
-    slides.forEach(slide => slide.classList.remove('heart-incoming', 'heart-outgoing'));
-    load(current);
-    if (changed && started) {
-      const oldSlide = slides[previousIndex];
-      const newSlide = slides[current];
-      oldSlide.hidden = false;
-      oldSlide.classList.add('heart-outgoing');
-      newSlide.classList.add('heart-incoming');
-      const effect = revealHeart(newSlide);
-      transition = effect;
-      const finish = () => {
-        if (transition !== effect) return;
-        oldSlide.hidden = true;
-        oldSlide.classList.remove('heart-outgoing');
-        newSlide.classList.remove('heart-incoming');
-        transition = null;
-      };
-      if (effect) effect.finished.then(finish, () => {});
-      else finish();
-    }
-    const element = slides[current].firstElementChild;
     if (element.tagName === 'VIDEO' && changed) element.currentTime = 0;
-    // Antecipe somente a próxima foto; vídeos esperam até ficarem visíveis.
     const adjacent = (current + 1) % slides.length;
     if (media[adjacent].type !== 'video') load(adjacent);
     status.setAttribute('aria-live', announce ? 'polite' : 'off');
-    status.textContent = `Memória ${current + 1} de ${slides.length}`;
+    status.textContent = 'Memória ' + (current + 1) + ' de ' + slides.length;
+    const oldSlide = slides[previousIndex];
+    const newSlide = slides[current];
+    if (changed && started) {
+      oldSlide.hidden = false;
+      oldSlide.setAttribute('aria-hidden', 'true');
+      oldSlide.classList.add('heart-outgoing');
+      newSlide.classList.add('heart-incoming');
+      transition = revealHeart(newSlide);
+      if (transition) {
+        try { await transition.finished; } catch { /* Finalize também se interrompida. */ }
+      }
+      oldSlide.hidden = true;
+      oldSlide.removeAttribute('aria-hidden');
+      oldSlide.classList.remove('heart-outgoing');
+      newSlide.classList.remove('heart-incoming');
+      transition = null;
+    }
+    busy = false;
+    if (requested !== current) return show(requested, announce);
     syncPlayback();
   }
 

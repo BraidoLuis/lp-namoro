@@ -144,7 +144,7 @@ p.subtitle {
   touch-action: pan-y;
 }
 
-.carousel-slide { width: 100%; height: 100%; animation: reveal-memory .8s ease-in-out; }
+.carousel-slide { width: 100%; height: 100%; background: #0a0014; }
 .carousel-slide.heart-outgoing { position: absolute; inset: 0; animation: none; }
 .carousel-slide.heart-incoming { position: relative; z-index: 1; animation: none; }
 .overlay.heart-opening { background: transparent; backdrop-filter: none; }
@@ -158,7 +158,6 @@ p.subtitle {
   border-radius: 16px;
 }
 .carousel-slide img { user-select: none; -webkit-user-drag: none; }
-@keyframes reveal-memory { from { opacity: 0; } to { opacity: 1; } }
 
 .carousel-status {
   position: absolute;
