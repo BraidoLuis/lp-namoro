@@ -75,3 +75,6 @@ Os testes cobrem viradas de mês, fevereiro bissexto, datas futuras, fusos e int
 ## Próxima etapa
 
 Separar uma versão padrão com conteúdo demonstrativo para clientes e definir sua forma de personalização e entrega. A alteração de visibilidade deste repositório para privado fica para essa etapa; a visibilidade do GitHub e o acesso ao site publicado são configurações independentes.
+
+As transições usam uma abertura vetorial em coração: em tela cheia na entrada e sobre a memória anterior no carrossel. A implementação web está em js/transitions.js; o projeto After Effects de referência não é uma dependência do site. Movimento reduzido desativa o efeito.
+

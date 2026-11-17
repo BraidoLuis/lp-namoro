@@ -45,19 +45,18 @@ syncParticles();
 document.addEventListener('visibilitychange', syncParticles);
 motion.addEventListener('change', syncParticles);
 
-btn.addEventListener('click', () => {
+btn.addEventListener('click', async () => {
   if (entered) return;
   entered = true;
   syncParticles();
-  overlay.classList.add('hide');
+  btn.hidden = true;
   document.getElementById('spotify-player').src = siteConfig.spotifyEmbedUrl;
-  setTimeout(() => {
+  await openHeartScreen(overlay);
     overlay.hidden = true;
     content.inert = false;
     document.body.classList.remove('entering');
     album.start();
     document.getElementById('main-title').focus({ preventScroll: true, focusVisible: false });
-  }, motion.matches ? 0 : 700);
 });
 
 document.addEventListener('keydown', event => {

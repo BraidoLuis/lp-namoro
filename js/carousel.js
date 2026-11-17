@@ -9,6 +9,7 @@ function createCarousel(media, photoDuration) {
   let started = false;
   let visible = true;
   let timer;
+  let transition;
 
   const status = document.createElement('p');
   status.className = 'carousel-status';
@@ -128,13 +129,34 @@ function createCarousel(media, photoDuration) {
   }
 
   function show(index, announce = false) {
+    if (transition) transition.cancel();
+    const previousIndex = current;
     const outgoing = slides[current].firstElementChild;
     if (outgoing.tagName === 'VIDEO') outgoing.pause();
     const incoming = (index + slides.length) % slides.length;
     const changed = incoming !== current;
     current = incoming;
     slides.forEach((slide, i) => { slide.hidden = i !== current; });
+    slides.forEach(slide => slide.classList.remove('heart-incoming', 'heart-outgoing'));
     load(current);
+    if (changed && started) {
+      const oldSlide = slides[previousIndex];
+      const newSlide = slides[current];
+      oldSlide.hidden = false;
+      oldSlide.classList.add('heart-outgoing');
+      newSlide.classList.add('heart-incoming');
+      const effect = revealHeart(newSlide);
+      transition = effect;
+      const finish = () => {
+        if (transition !== effect) return;
+        oldSlide.hidden = true;
+        oldSlide.classList.remove('heart-outgoing');
+        newSlide.classList.remove('heart-incoming');
+        transition = null;
+      };
+      if (effect) effect.finished.then(finish, () => {});
+      else finish();
+    }
     const element = slides[current].firstElementChild;
     if (element.tagName === 'VIDEO' && changed) element.currentTime = 0;
     // Antecipe somente a próxima foto; vídeos esperam até ficarem visíveis.
