@@ -40,6 +40,8 @@ function createCarousel(media, photoDuration) {
   const next = button('Próxima memória', '▶', 'btn next', () => show(current + 1, true));
   const pause = button('Pausar apresentação', 'Pausar apresentação', 'playback-btn', () => {
     userPaused = !userPaused;
+    // A retomada explícita também funciona com o foco no próprio botão.
+    if (!userPaused) { focused = false; hovering = false; }
     syncPlayback();
   });
 
@@ -61,6 +63,18 @@ function createCarousel(media, photoDuration) {
       element.controls = true;
       element.preload = 'none';
       element.setAttribute('aria-label', item.alt);
+      element.addEventListener('pause', () => {
+        if (index === current && canPlay() && element.paused && !element.ended) {
+          userPaused = true;
+          syncPlayback();
+        }
+      });
+      element.addEventListener('play', () => {
+        if (index === current && started && !document.hidden && visible && userPaused) {
+          userPaused = false;
+          syncPlayback();
+        }
+      });
       element.addEventListener('ended', () => {
         if (index === current && canPlay()) show(current + 1);
       });
