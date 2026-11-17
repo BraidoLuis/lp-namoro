@@ -46,7 +46,7 @@ a { color: #ffd6e9; }
 .container {
   max-width: var(--max-w);
   width: 100%;
-  margin: 0 auto; 
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -98,11 +98,6 @@ p.subtitle {
               0 0 40px rgba(155, 92, 255, 0.15);
 }
 
-
-
-
-
-
 .prev{
   left:10px;
 }
@@ -111,22 +106,13 @@ p.subtitle {
   right:10px;
 }
 
-/* setas */
-
-
-
-/* dots */
-
-
-
-
 /* botões agora livres */
 .btn{
   z-index: 2;
   position:absolute;
   top:50%;
   transform:translateY(-50%);
-  
+
   width:44px;
   height:44px;
 
@@ -210,7 +196,6 @@ p.subtitle {
   box-shadow:0 0 20px rgba(255,79,154,.9);
 }
 
-
 /* Texto */
 .more-text {
   margin-top: 40px;
@@ -287,7 +272,6 @@ p.subtitle {
   overflow: visible; /* importante! para as partículas saírem para fora */
 }
 
-
 .overlay-btn:hover {
   transform: scale(1.07);
   box-shadow: 0 0 25px rgba(255, 79, 154, 0.7),
@@ -333,7 +317,7 @@ p.subtitle {
   padding: 12px;
   border-radius: 24px;
   background: rgba(255, 79, 154, 0.1); /* rosa suave translúcido */
-  box-shadow: 0 0 30px rgba(255, 79, 154, 0.4), 
+  box-shadow: 0 0 30px rgba(255, 79, 154, 0.4),
               0 0 60px rgba(155, 92, 255, 0.3);
   backdrop-filter: blur(10px);
   border: 2px solid rgba(255, 255, 255, 0.1);
@@ -342,11 +326,12 @@ p.subtitle {
 
 .spotify-wrapper-dramatic:hover {
   transform: scale(1.03);
-  box-shadow: 0 0 40px rgba(255, 79, 154, 0.6), 
+  box-shadow: 0 0 40px rgba(255, 79, 154, 0.6),
               0 0 80px rgba(155, 92, 255, 0.5);
 }
 
 .spotify-wrapper-dramatic iframe {
+  display: block;
   width: 100%;
   height: 380px;
   border-radius: 18px;
@@ -390,12 +375,6 @@ p.subtitle {
 
   .prev { left: 5px; }
   .next { right: 5px; }
-
-  /* Imagens menores */
-
-
-  /* Dots menores */
-
 
   /* Spotify ajustado */
   .spotify-wrapper-dramatic iframe {

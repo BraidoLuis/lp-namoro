@@ -91,6 +91,7 @@ function createCarousel(media, photoDuration) {
       element.width = item.width;
       element.height = item.height;
       element.decoding = 'async';
+      element.draggable = false;
       element.loading = index === 0 ? 'eager' : 'lazy';
       if (index === 0) element.fetchPriority = 'high';
     }
