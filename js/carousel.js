@@ -10,8 +10,6 @@ function createCarousel(media, photoDuration) {
   let visible = true;
   let timer;
 
-  const controls = document.createElement('div');
-  controls.className = 'carousel-controls';
   const status = document.createElement('p');
   status.className = 'carousel-status';
   status.setAttribute('aria-live', 'polite');
@@ -74,8 +72,7 @@ function createCarousel(media, photoDuration) {
   });
 
   stage.append(previous, next);
-  controls.append(status);
-  root.append(stage, controls);
+  root.append(stage, status);
   root.addEventListener('keydown', event => {
     // Preserve os atalhos nativos do player de vídeo.
     if (event.target.tagName === 'VIDEO') return;
