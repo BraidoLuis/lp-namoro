@@ -5,7 +5,6 @@ function createCarousel(media, photoDuration) {
   const stage = document.createElement('div');
   stage.className = 'carousel-stage';
   const slides = [];
-  const dots = [];
   let current = 0;
   let started = false;
   let visible = true;
@@ -13,10 +12,6 @@ function createCarousel(media, photoDuration) {
 
   const controls = document.createElement('div');
   controls.className = 'carousel-controls';
-  const indicators = document.createElement('div');
-  indicators.className = 'carousel-dots';
-  indicators.setAttribute('role', 'group');
-  indicators.setAttribute('aria-label', 'Escolher memória');
   const status = document.createElement('p');
   status.className = 'carousel-status';
   status.setAttribute('aria-live', 'polite');
@@ -76,15 +71,11 @@ function createCarousel(media, photoDuration) {
     slide.appendChild(element);
     stage.appendChild(slide);
     slides.push(slide);
-    const dot = button(`Ver memória ${index + 1} de ${media.length}`, '', 'carousel-dot', () => show(index, true));
-    dot.setAttribute('aria-controls', slide.id);
-    indicators.appendChild(dot);
-    dots.push(dot);
   });
 
   stage.append(previous, next);
   controls.append(status);
-  root.append(stage, indicators, controls);
+  root.append(stage, controls);
   root.addEventListener('keydown', event => {
     // Preserve os atalhos nativos do player de vídeo.
     if (event.target.tagName === 'VIDEO') return;
@@ -146,10 +137,6 @@ function createCarousel(media, photoDuration) {
     const changed = incoming !== current;
     current = incoming;
     slides.forEach((slide, i) => { slide.hidden = i !== current; });
-    dots.forEach((dot, i) => {
-      if (i === current) dot.setAttribute('aria-current', 'true');
-      else dot.removeAttribute('aria-current');
-    });
     load(current);
     const element = slides[current].firstElementChild;
     if (element.tagName === 'VIDEO' && changed) element.currentTime = 0;

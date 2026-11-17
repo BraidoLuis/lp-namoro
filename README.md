@@ -37,8 +37,8 @@ Os arquivos originais foram preservados. Ao editar textos ou a playlist, atualiz
 
 ## Comportamento
 
-- Setas, indicadores, teclas direcionais e gesto horizontal nas fotos permitem navegar, inclusive do último slide para o primeiro.
-- As fotos avançam automaticamente após 10 segundos, em ciclo infinito, inclusive com foco ou ponteiro sobre o carrossel. Os indicadores aparecem somente em telas de até 900 pixels.
+- Setas, teclas direcionais e gesto horizontal nas fotos permitem navegar, inclusive do último slide para o primeiro.
+- As fotos avançam automaticamente após 10 segundos, em ciclo infinito, inclusive com foco ou ponteiro sobre o carrossel. Não há indicadores em pontos.
 - O vídeo começa sem som apenas quando ativo e visível, tem controles nativos e avança ao terminar. Ao retornar ao slide, começa do início. Se o navegador bloquear a reprodução, uma mensagem orienta a iniciá-la manualmente.
 - Ao sair da área visível ou ocultar a aba, a apresentação pausa. As partículas encerram após a entrada; o contador suspende atualizações em abas ocultas e recalcula ao voltar.
 - Movimento reduzido desativa as animações visuais; a apresentação continua avançando automaticamente.
