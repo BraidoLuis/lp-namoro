@@ -6,8 +6,6 @@
   <title>Amor da minha vida</title>
   <link rel="icon" href="images/heart-removebg-preview.png" type="image/jpg">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
 </head>
 
 <body>
@@ -20,7 +18,7 @@
   <div class="container">
 
     <header>
-      <h1 id="main-title">Nossa História</h1>
+      <h1 id="main-title" tabindex="-1">Nossa História</h1>
       <p class="subtitle" id="subtitle">Álbum de memórias e músicas que contam nossa jornada juntos, meu amor.
       </p>
     </header>
@@ -37,7 +35,7 @@
     <!-- CARROSSEL -->
     <section class="carousel-wrapper">
 
-      <div class="carousel" id="carousel"></div>
+      <div class="carousel" id="carousel" role="region" aria-roledescription="carrossel" aria-label="Nossas memórias" tabindex="0"></div>
 
     </section>
 
@@ -63,9 +61,8 @@ Eu te amo, hoje e sempre.
     </article>
 
   </div>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
   <script src="js/config.js"></script>
+  <script src="js/carousel.js"></script>
   <script src="js/main.js"></script>
 </body>
 

@@ -5,10 +5,10 @@ document.querySelector('#moreText p').textContent = siteConfig.message;
 document.querySelector('.spotify-wrapper-dramatic iframe').src = siteConfig.spotifyEmbedUrl;
 
 // 👉 Coloque aqui a data que vocês começaram a namorar
-const startDate = new Date(siteConfig.startDate); 
+const startDate = new Date(siteConfig.startDate);
 
 function calcDiff(start, now) {
-  if (now <= start) 
+  if (now <= start)
     return {years:0, months:0, days:0, hours:0, minutes:0, seconds:0};
 
   let y = now.getFullYear() - start.getFullYear();
@@ -80,101 +80,17 @@ function spawnParticle() {
 }
 
 setInterval(spawnParticle, 50);
-
-
-// ---------------- CRIAR SLIDES ----------------
-
-const midias = siteConfig.media.map(item => item.src);
-
-const carousel = document.getElementById("carousel");
-
-midias.forEach((src,i)=>{
-
-  const slide = document.createElement("div");
-
-  const ext = src.split('.').pop().toLowerCase();
-
-  if(["mp4","webm","mov"].includes(ext)){
-
-    const video = document.createElement("video");
-    video.src = src;
-    video.className = "slide-video";
-    video.muted = true;
-    video.loop = true;
-    video.playsInline = true;
-    video.autoplay = true;
-    video.controls = false;
-
-    slide.appendChild(video);
-
-  }else{
-
-    const img = document.createElement("img");
-    img.src = src;
-    img.className = "slide-img";
-
-    slide.appendChild(img);
-
-  }
-
-  carousel.appendChild(slide);
-
-});
-
-
-// ---------------- FUNÇÃO QUE INICIA O SLICK ----------------
-
-function iniciarCarousel(){
-
-  const el = $('#carousel');
-
-  if(el.hasClass('slick-initialized')){
-    el.slick('unslick');
-  }
-
-  el.slick({
-    dots: true,
-    arrows: true,
-    infinite: true,
-    speed: 800,
-    slidesToShow: 1,
-    autoplay: true,
-    autoplaySpeed: 10000,
-    fade: true,
-    cssEase: 'ease-in-out',
-    adaptiveHeight: true,
-
-    prevArrow: '<button class="btn prev">◀</button>',
-    nextArrow: '<button class="btn next">▶</button>',
-
-    responsive: [
-      {
-        breakpoint: 768,
-        settings: {
-          arrows: false
-        }
-      }
-    ]
-  });
-
-  setTimeout(()=>{
-    el.slick('setPosition');
-  },100);
-}
-
-// ---------------- BOTÃO DE ENTRADA ----------------
-
-document.getElementById('enterBtn').addEventListener('click', () => {
-
+// Carrossel independente de bibliotecas externas.
+const album = createCarousel(siteConfig.media, siteConfig.photoDuration);
+let entered = false;
+btn.addEventListener('click', () => {
+  if (entered) return;
+  entered = true;
   const overlay = document.getElementById('overlay');
   overlay.classList.add('hide');
-
   setTimeout(() => {
-
-    overlay.style.display = "none";
-
-    iniciarCarousel();
-
+    overlay.hidden = true;
+    album.start();
+    document.getElementById('main-title').focus();
   }, 700);
-
 });
